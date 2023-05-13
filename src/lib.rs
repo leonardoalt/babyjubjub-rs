@@ -131,7 +131,7 @@ impl PointProjective {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Ord, Eq, PartialEq, PartialOrd)]
 pub struct Point {
     pub x: Fr,
     pub y: Fr,
@@ -407,7 +407,8 @@ pub fn verify(pk: Point, sig: Signature, msg: BigInt) -> bool {
     let r = sig
         .r_b8
         .projective()
-        .add(&pk.mul_scalar(&(8.to_bigint().unwrap() * hm_b)).projective());
+        //.add(&pk.mul_scalar(&(8.to_bigint().unwrap() * hm_b)).projective());
+        .add(&pk.mul_scalar(&hm_b).projective());
     l.equals(r.affine())
 }
 
